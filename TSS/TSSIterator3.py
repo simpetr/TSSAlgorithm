@@ -4,14 +4,28 @@ import copy
 import gc
 import sys
 import array
+#################
+## Simple TSS algorithm
 
-name = "CA-GrQc"
+#################
+####FUNCTIONS####
+#####	IsEdge(SrcNId, DstNId) Tests whether an edge from node SrcNId to DstNId exists in the graph.
+#####	GetNodes() Returns the number of nodes in the graph.
+#####	Nodes() Returns a generator for the nodes in the graph.
+#####   GetId() Returns node ID of the current node.
+#####	GetOutEdges() Returns a generator for the caller's neighbors.
+#####   GetNI(NId) Returns a node iterator referring to the node of ID NId in the graph.
+
+
+
+name = raw_input("Please enter something: ")
+print "You entered", name
 
 if not gc.isenabled():
 	gc.enable()
-
+	
+####PRINT FUNCTION
 def printGraphDetails(Graph):
-	#print
 	for NI in Graph.Nodes():
 		node = NI.GetId()
 		thrVal = Graph.GetIntAttrDatN(node,"Threshold")
@@ -24,29 +38,25 @@ def printGraphDetails(Graph):
 			print "edge between %d and %d" % (node,nid)
 			print "%d value on the edge %f" % (nid,value)
 
+
+
 ####INFLUENCE FUNCTION####
 def influence(graph,node):
-	#print "Start influencing.."
+	##Check all node's neighbors
 	for neighbor in node.GetOutEdges():
-		###check if the neighbor is still active
-		#print "Influencing node %d" % (neighbor)
-		# if IsActive(graph,node):
-			##it's active, reduce threshold##
-			## can be improved => if threshold == 0 direclty deactive neighbor##
-		# thrVal = graph.GetIntAttrDatN(neighbor,"Threshold")
 		thrVal = T[neighbor]
 		if(thrVal<=1):
-			# graph.AddIntAttrDatN(neighbor,0,"Threshold")
 			T[neighbor] = 0
 		else:
 			thrVal-=1
-			# graph.AddIntAttrDatN(neighbor,thrVal,"Threshold")
 			T[neighbor] = thrVal
 	return
+
 
 FIn = snap.TFIn(name +".graph")
 Graph = snap.TNEANet.Load(FIn)
 print "Loaded graph"
+
 #####################################
 ########START SIMPLE TSS#############
 #####################################
@@ -54,27 +64,27 @@ print "Loaded graph"
 S = snap.TIntV()
 T = snap.TIntFltH()
 nodesList = snap.TIntV()
-j = 0
-sum = 0
+# j = 0
+
 for node in Graph.Nodes():
 	id = node.GetId()
 	T[id] =Graph.GetFltAttrDatN(node,"Threshold")
-	#T.append(Graph.GetFltAttrDatN(node,"Threshold"))
-	#T.Add(Graph.GetFltAttrDatN(node,"Threshold"))
-	
+
+print len(T)	
 print "Finished"
-print len(T)
+
 gc.collect()
-nodesList = snap.TIntV()
+
+
 while not Graph.Empty():
 	Graph.GetNIdV(nodesList)
-	length = len(nodesList)
-	j+=1
-	if (j%1000 ==0):
-		print "."
+	#Enable if you want a feedback on the execution
+	# j+=1
+	# if (j%1000 ==0):
+		# print "."
+	##FIRST PHASE	
 	moveOn = True
 	for i in nodesList:
-		# print "Node %d" % (node)
 		thrVal = T[i]
 		if thrVal == 0.0:
 			influence(Graph,Graph.GetNI(i))
@@ -83,7 +93,7 @@ while not Graph.Empty():
 			break
 	if not moveOn:
 		continue
-	
+	##SECOND PHASE
 	for i in nodesList:
 		thrVal = T[i]
 		if Graph.GetNI(i).GetOutDeg() < thrVal:
@@ -94,8 +104,8 @@ while not Graph.Empty():
 			break
 	if not moveOn:
 		continue
-	# #print "Third phase"
-	maxV = -100
+	##THIRD PHASE
+	maxV = -1000
 	maxN = -1
 	for i in nodesList:
 		thrVal = T[i]
@@ -105,21 +115,15 @@ while not Graph.Empty():
 			if value > maxV:
 				maxV = value
 				maxN = i
-	# #print "Node %d influence value %f" % (maxN,maxV)
 	Graph.DelNode(maxN)
 	
 # print "Final set: "
 # for i in S:
 	# print "Node %d" % (i)
 	
-f = open('result.txt', 'a')
+f = open("result"+name+".txt", 'a')
 f.write(name+"\n")
-# f.write("nodes size"+str(Graph.GetNodes())+"\n")
-# f.write("edges size"+str(Graph.GetEdges())+"\n")
 f.write("Target set size"+str(S.Len())+"\n")
-for i in S:
-	f.write(str(i))
-	f.write("\n")
 f.close()
 			
 			

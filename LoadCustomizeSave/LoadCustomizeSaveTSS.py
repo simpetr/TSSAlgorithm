@@ -3,8 +3,9 @@ import random
 import copy
 import gc
 import sys
-#################
-## Check if a given graph is directed or not
+#####
+## Load undirected graph from txt, add attribute on nodes, and turn the .txt into a .graph
+
 
 #################
 ####FUNCTIONS####
@@ -14,39 +15,28 @@ import sys
 #####   GetId() Returns node ID of the current node.
 #####	GetOutEdges() Returns a generator for the caller's neighbors.
 #####   GetNI(NId) Returns a node iterator referring to the node of ID NId in the graph.
- 
- 
+#####	AddFltAttrDatN(NId, Value, Attr) Sets the value of attribute named Attr for the node with node id NId to Value. Value is an integer, a float, or a string, respectively.
+
 name = raw_input("Please enter something: ")
 print "You entered", name
 
-if not gc.isenabled():
-	gc.enable()
-
 Graph = snap.LoadEdgeList(snap.PNEANet, name+".txt" ,0,1,'\t')
-print "Loaded graph from txt file"
-print "Start checking if graph is undirected"
-
-directed = False
-print "Nodes number: " + str(Graph.GetNodes())
+print "Loaded graph"
+####ADD THRESHOLD ON EVERY NODE####
 for n in Graph.Nodes():
-	node = n.GetId()
-	for x in n.GetOutEdges():
-		if Graph.IsEdge(node,x):
-			if not Graph.IsEdge(x,node):
-					directed = True
-					break
+	#An example of threhsold value
+	#change on need
+	degree = n.GetOutDeg()
+	threshold = random.randint(1,degree)
+	Graph.AddFltAttrDatN(n.GetId(),threshold,"Threshold")
 
-if directed:
-	print "The graph is directed"
-else:
-	print "The graph is undirected"
+# print Graph.GetNodes()
+# print Graph.GetEdges()
 
-			
-	
-		
-
-		
-	
-		
+####SAVE THE NEW GRAPH IN SNAP-FRIENDLY FORMAT####
+FOut = snap.TFOut(name+".graph")
+Graph.Save(FOut)
+FOut.Flush()
+print "End"
 
 
