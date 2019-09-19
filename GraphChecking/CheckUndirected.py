@@ -16,7 +16,7 @@ import sys
 #####   GetNI(NId) Returns a node iterator referring to the node of ID NId in the graph.
  
  
-name = raw_input("Please enter something: ")
+name = raw_input("Please enter dataset name: ")
 print "You entered", name
 
 if not gc.isenabled():
@@ -24,10 +24,10 @@ if not gc.isenabled():
 
 Graph = snap.LoadEdgeList(snap.PNEANet, name+".txt" ,0,1,'\t')
 print "Loaded graph from txt file"
-print "Start checking if graph is undirected"
+print "Nodes number: " + str(Graph.GetNodes())
+print "Checking the graph"
 
 directed = False
-print "Nodes number: " + str(Graph.GetNodes())
 for n in Graph.Nodes():
 	node = n.GetId()
 	for x in n.GetOutEdges():
