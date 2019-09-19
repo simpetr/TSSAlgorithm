@@ -8,12 +8,12 @@ import sys
 
 #################
 ####FUNCTIONS####
-#####	IsEdge(SrcNId, DstNId) Tests whether an edge from node SrcNId to DstNId exists in the graph.
-#####	GetNodes() Returns the number of nodes in the graph.
-#####	Nodes() Returns a generator for the nodes in the graph.
-#####   GetId() Returns node ID of the current node.
-#####	GetOutEdges() Returns a generator for the caller's neighbors.
-#####   GetNI(NId) Returns a node iterator referring to the node of ID NId in the graph.
+#####	IsEdge(SrcNId, DstNId) tests whether an edge from node SrcNId to DstNId exists in the graph.
+#####	GetNodes() returns the number of nodes in the graph.
+#####	Nodes() returns a generator for the nodes in the graph.
+#####   GetId() returns node ID of the current node.
+#####	GetOutEdges() returns a generator for the caller's neighbors.
+#####   GetNI(NId) returns a node iterator referring to the node of ID NId in the graph.
  
  
 name = raw_input("Please enter dataset name: ")
