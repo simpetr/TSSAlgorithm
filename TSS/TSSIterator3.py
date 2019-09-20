@@ -8,13 +8,13 @@ import array
 ## Simple TSS algorithm
 
 #################
-####FUNCTIONS####
-#####	IsEdge(SrcNId, DstNId) Tests whether an edge from node SrcNId to DstNId exists in the graph.
-#####	GetNodes() Returns the number of nodes in the graph.
-#####	Nodes() Returns a generator for the nodes in the graph.
-#####   GetId() Returns node ID of the current node.
-#####	GetOutEdges() Returns a generator for the caller's neighbors.
-#####   GetNI(NId) Returns a node iterator referring to the node of ID NId in the graph.
+####METHODS####
+#####	IsEdge(SrcNId, DstNId) tests whether an edge from node SrcNId to DstNId exists in the graph.
+#####	GetNodes() returns the number of nodes in the graph.
+#####	Nodes() returns a generator for the nodes in the graph.
+#####   GetId() returns node ID of the current node.
+#####	GetOutEdges() returns a generator for the caller's neighbors.
+#####   GetNI(NId) returns a node iterator referring to the node of ID NId in the graph.
 
 
 
@@ -37,12 +37,13 @@ def printGraphDetails(Graph):
 			value = Graph.GetFltAttrDatE(edge,"EdgeProb")
 			print "edge between %d and %d" % (node,nid)
 			print "%d value on the edge %f" % (nid,value)
+####END
 
 
 
 ####INFLUENCE FUNCTION####
 def influence(graph,node):
-	##Check all node's neighbors
+	##Check all nodes' neighbors
 	for neighbor in node.GetOutEdges():
 		thrVal = T[neighbor]
 		if(thrVal<=1):
@@ -51,7 +52,7 @@ def influence(graph,node):
 			thrVal-=1
 			T[neighbor] = thrVal
 	return
-
+#END
 
 FIn = snap.TFIn(name +".graph")
 Graph = snap.TNEANet.Load(FIn)
@@ -69,8 +70,7 @@ nodesList = snap.TIntV()
 for node in Graph.Nodes():
 	id = node.GetId()
 	T[id] =Graph.GetFltAttrDatN(node,"Threshold")
-
-print len(T)	
+	
 print "Finished"
 
 gc.collect()
