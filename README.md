@@ -9,7 +9,7 @@ A Python implementation of the TSS algorithm proposed in the article "Discoverin
 ## How it works
 1. The "GraphChecking" folder contains a script that checks if a given dataset represent a direct or undirect graph. (Optional)
 2. The "LoadCustomizeSave" folder contains a script that adds the threshold value on each node. It produces a ".graph" which is necessary for the TSS algorithm.
-3. The "TSS" folder contains the TSS algorithm.
+3. The "TSS" folder contains the TSS algorithm. The TSS algorithm has been tested only on undirected graph.
 
 ## Datasets
 The "Datasets" folder contains some datasets that have been used to test the algorithm. 
