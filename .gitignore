@@ -5,10 +5,6 @@ ProbTSSV2 .py
 
 TEST/
 
-TSS/TSSIterator1.py
-
-TSS/TSSIterator2.py
-
 prova.txt
 
 TSSProb/
@@ -16,5 +12,9 @@ TSSProb/
 LoadCustomizeSave/LoadCustomizeSaveProbTSS.py
 
 TSS/TSSIterator3RapidIteration.py
+
+TSS/TSSIterator1.py
+
+TSS/TSSIterator2.py
 
 DocumentazioneProgettoRetiSociali_SimonePetrosino.docx.lnk
